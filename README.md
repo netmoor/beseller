@@ -1,1 +1,1 @@
-[![Build Status](https://travis-ci.com/netmoor/beseller.svg?branch=master)](https://travis-ci.com/netmoor/beseller)
+[![Build Status](https://travis-ci.com/netmoor/beseller.svg?branch=master)](https://travis-ci.com/netmoor/beseller) [![codecov](https://codecov.io/gh/netmoor/beseller/branch/master/graph/badge.svg)](https://codecov.io/gh/netmoor/beseller)
