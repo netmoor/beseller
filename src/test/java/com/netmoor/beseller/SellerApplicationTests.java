@@ -12,7 +12,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ActiveProfiles(value = "test")
-class SellerApplicationTests {
+public class SellerApplicationTests {
 
     @ClassRule
     public static PostgreSQLContainer postgreSQLContainer = PostgresqlContainer.getInstance();
