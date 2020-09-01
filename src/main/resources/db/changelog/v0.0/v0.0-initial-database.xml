@@ -1,11 +1,41 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
-   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-   http://www.liquibase.org/xml/ns/dbchangelog
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet id="create_granted_table" author="Nikolay_Batov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="granted"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="granted">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" unique="true"/>
+            </column>
+            <column name="authority" type="varchar(50)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="granted">
+            <column name="authority" value="ADMIN"/>
+        </insert>
+
+        <insert tableName="granted">
+            <column name="authority" value="USER"/>
+        </insert>
+
+        <insert tableName="granted">
+            <column name="authority" value="EMPLOYEE"/>
+        </insert>
+
+        <rollback>
+            <dropTable tableName="granted"/>
+        </rollback>
+    </changeSet>
 
     <changeSet author="Batov_Nikolay" id="create_account_table">
         <preConditions onFail="MARK_RAN">
@@ -18,17 +48,74 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" unique="true"/>
             </column>
-            <column name="login" type="varchar(50)">
+            <column name="user_name" type="varchar(50)">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="password" type="varchar(50)" />
-            <column name="email" type="varchar(50)">
-                <constraints unique="true" nullable="false"/>
+            <column name="expired" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="credentials_expired" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
             </column>
         </createTable>
 
+        <insert tableName="account">
+            <column name="user_name" value="admin"/>
+            <column name="password" value="password"/>
+            <column name="enabled" value="true"/>
+        </insert>
+
         <rollback>
             <dropTable tableName="account"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="create_account_granted" author="Nikolay_Batov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="account_granted"/>
+            </not>
+            <tableExists tableName="account"/>
+            <tableExists tableName="granted"/>
+        </preConditions>
+        <createTable tableName="account_granted">
+            <column name="account_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="granted_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="account_granted"
+                                 baseColumnNames="account_id"
+                                 constraintName="fk_account_id"
+                                 referencedTableName="account"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="account_granted"
+                                 baseColumnNames="granted_id"
+                                 constraintName="fk_granted_id"
+                                 referencedTableName="granted"
+                                 referencedColumnNames="id"/>
+        <addUniqueConstraint constraintName="ctn_account_granted_id" tableName="account_granted" columnNames="account_id, granted_id"/>
+
+        <insert tableName="account_granted">
+            <column name="account_id" value="1"/>
+            <column name="granted_id" value="1"/>
+        </insert>
+
+        <rollback>
+            <dropUniqueConstraint tableName="ctn_account_granted_id"/>
+            <dropForeignKeyConstraint baseTableName="account_granted" constraintName="fk_account_id"/>
+            <dropForeignKeyConstraint baseTableName="account_granted" constraintName="fk_granted_id"/>
+            <dropTable tableName="account_granted"/>
         </rollback>
     </changeSet>
 
