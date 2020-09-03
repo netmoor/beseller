@@ -55,14 +55,11 @@ public class Account implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "granted_id")
     )
     private Set<GrantedAuthorityImpl> authorities = new HashSet<>();
-
-    @Column(name = "expired")
+    
     private boolean accountNonExpired;
-
-    @Column(name = "locked")
+    
     private boolean accountNonLocked;
-
-    @Column(name = "credentials_expired")
+    
     private boolean credentialsNonExpired;
 
     private boolean enabled;

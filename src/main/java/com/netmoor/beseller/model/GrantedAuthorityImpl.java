@@ -29,4 +29,8 @@ public class GrantedAuthorityImpl implements GrantedAuthority {
     private Long id;
 
     private String authority;
+
+    public String getAuthority() {
+        return "ROLE_" + authority;
+    }
 }

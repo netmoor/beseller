@@ -48,17 +48,17 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" unique="true"/>
             </column>
-            <column name="user_name" type="varchar(50)">
+            <column name="username" type="varchar(50)">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="password" type="varchar(50)" />
-            <column name="expired" type="BOOLEAN" defaultValue="false">
+            <column name="account_non_expired" type="BOOLEAN" defaultValue="true">
                 <constraints nullable="false"/>
             </column>
-            <column name="locked" type="BOOLEAN" defaultValue="false">
+            <column name="account_non_locked" type="BOOLEAN" defaultValue="true">
                 <constraints nullable="false"/>
             </column>
-            <column name="credentials_expired" type="BOOLEAN" defaultValue="false">
+            <column name="credentials_non_expired" type="BOOLEAN" defaultValue="true">
                 <constraints nullable="false"/>
             </column>
             <column name="enabled" type="BOOLEAN" defaultValue="false">
@@ -67,7 +67,7 @@
         </createTable>
 
         <insert tableName="account">
-            <column name="user_name" value="admin"/>
+            <column name="username" value="admin"/>
             <column name="password" value="password"/>
             <column name="enabled" value="true"/>
         </insert>
