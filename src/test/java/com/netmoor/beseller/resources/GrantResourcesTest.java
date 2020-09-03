@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.util.StringUtils;
 
 import java.util.stream.Stream;
 
@@ -37,7 +36,6 @@ class GrantResourcesTest {
 
     @Test
     public void getAllGrantsTest() {
-        StringUtils.replace("", "ROLE_", "");
         Mockito.when(service.getAll()).thenReturn(Stream.of(
                 GrantedAuthorityImpl.builder()
                         .id(1L)
