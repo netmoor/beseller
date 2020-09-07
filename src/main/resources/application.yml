@@ -6,3 +6,11 @@ spring:
     password: 12345678
   liquibase:
     change-log: classpath:db/changelog/liquibase-changeLog.xml
+
+springdoc:
+  swagger-ui:
+    path: swagger-ui.html
+
+logging.level:
+  ROOT: INFO
+  org.springframework: DEBUG

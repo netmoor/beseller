@@ -25,7 +25,7 @@ import javax.persistence.Table;
 public class GrantedAuthorityImpl implements GrantedAuthority {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "granted_id_seq")
     private Long id;
 
     private String authority;
